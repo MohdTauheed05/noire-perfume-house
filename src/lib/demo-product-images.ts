@@ -2,7 +2,7 @@
 export const REMOTE_DEMO_PRODUCT_IMAGES: Record<string, string> = {
   "dior-sauvage": "https://media.vperfumes.com/products/Dior-Sauvage-EDT-For-Men-100ML-1731388148840.webp",
   "dior-sauvage-elixir": "https://www.myfragrancesamples.com/cdn/shop/files/dior_sauvage_elixir.jpg?v=1757614775&width=1920",
-  "dior-j-adore": "https://daouk.com/cdn/shop/files/Untitled_design_-_2024-08-06T002045.214.png?v=1771671682",
+  "dior-j-adore": "https://xpressions.ae/cdn/shop/files/3348900417878-JAD_EDP_100ML_2_1024x.png?v=1683101405",
   "dior-miss-dior": "https://i.ebayimg.com/images/g/370AAOSwYhhgIXpJ/s-l1200.png",
   "chanel-bleu-de-chanel": "https://perfumes.ec/cdn/shop/files/ChanelBleuDeChanel100ml.png?v=1700319988",
   "chanel-coco-mademoiselle": "https://cdn2.parfumdreams.de/image/product/24351-24949-7-46.webp",
