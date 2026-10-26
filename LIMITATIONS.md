@@ -1,0 +1,12 @@
+# Known limitations / not implemented
+- **Payments:** demo mode only; no provider, no webhook, refunds are a status label only.
+- **Not verified here:** this version was migrated from SQLite to Firestore without being able to run `npm install`, `next build` or talk to a real Firebase project. Logic that does not need Firebase (pricing, filtering, order planning) is unit-tested; the Firestore calls were type-checked only. Test once locally (seed, browse, place a demo order, edit in /admin) before going live.
+- **Browser E2E** (3D hero, cart UI, image zoom) not exercised in a real browser. The old SQLite-based HTTP E2E scripts were removed.
+- **Rate limiting** is in-memory per serverless instance, so on Vercel it only slows casual abuse. Use Upstash/Redis for real protection.
+- **Catalog reads** load all products and filter in memory (cached). Fine for hundreds of products; move to indexed queries/search (e.g. Algolia) at thousands.
+- **Admin upload size:** 4 MB per photo (Vercel request limit); one request per file.
+- **Cart/wishlist** are per-browser. Saved addresses are not editable. No order emails/invoices/CSV export.
+- **Reviews** not implemented; newsletter signups are stored but not emailed.
+- **Admin:** single ADMIN role, no password reset flow, customers cannot be created/edited by admins.
+- **Coupons:** no product/category restrictions. Coupon codes: letters, numbers, `-`, `_`.
+- Descriptions, notes and prices are sample data, not verified against official sources.

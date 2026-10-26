@@ -1,0 +1,10 @@
+node_modules
+.next
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+.vercel
+# never commit service-account keys
+*firebase-adminsdk*.json
+serviceAccount*.json
