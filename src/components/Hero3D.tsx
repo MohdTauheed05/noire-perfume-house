@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { REMOTE_DEMO_PRODUCT_IMAGES } from "@/lib/demo-product-images";
 
-const HERO_BOTTLE = REMOTE_DEMO_PRODUCT_IMAGES["jean-paul-gaultier-scandal"];
-const FALLBACK_BOTTLE = REMOTE_DEMO_PRODUCT_IMAGES["dior-sauvage"];
+const HERO_BOTTLES = [
+  REMOTE_DEMO_PRODUCT_IMAGES["jean-paul-gaultier-scandal"],
+  REMOTE_DEMO_PRODUCT_IMAGES["dior-sauvage"],
+];
 
 export function StaticBottle() {
-  const [src, setSrc] = useState(HERO_BOTTLE);
-  const [usingFallback, setUsingFallback] = useState(false);
-  const [failed, setFailed] = useState(false);
+  const [imageIndex, setImageIndex] = useState(0);
+  const failed = imageIndex >= HERO_BOTTLES.length;
 
   if (failed) {
     return (
@@ -24,22 +25,15 @@ export function StaticBottle() {
   }
 
   return (
-    <div role="img" aria-label="Jean Paul Gaultier Scandal perfume bottle" className="grid h-full w-full place-items-center overflow-visible">
+    <div className="grid h-full w-full place-items-center overflow-visible motion-safe:animate-[hero-bottle-float_6s_ease-in-out_infinite]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={src}
+        src={HERO_BOTTLES[imageIndex]}
         alt="Jean Paul Gaultier Scandal perfume bottle"
         referrerPolicy="no-referrer"
         fetchPriority="high"
-        onError={() => {
-          if (!usingFallback) {
-            setUsingFallback(true);
-            setSrc(FALLBACK_BOTTLE);
-          } else {
-            setFailed(true);
-          }
-        }}
-        className="h-full w-full object-contain drop-shadow-[0_24px_45px_rgba(0,0,0,0.45)] [mix-blend-mode:multiply] motion-safe:animate-[hero-bottle-float_6s_ease-in-out_infinite]"
+        onError={() => setImageIndex((current) => current + 1)}
+        className="h-full w-full object-contain drop-shadow-[0_24px_45px_rgba(0,0,0,0.45)] [mix-blend-mode:multiply]"
       />
     </div>
   );
