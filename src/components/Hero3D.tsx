@@ -64,7 +64,7 @@ export function StaticBottle() {
             return HERO_BOTTLES.length;
           });
         }}
-        className="h-full w-full object-contain drop-shadow-[0_24px_45px_rgba(0,0,0,0.45)] [mix-blend-mode:multiply] motion-safe:animate-[hero-bottle-appear_700ms_ease-out]"
+        className="h-full w-full object-contain drop-shadow-[0_24px_45px_rgba(0,0,0,0.45)] rounded-2xl motion-safe:animate-[hero-bottle-appear_700ms_ease-out]"
       />
     </div>
   );
