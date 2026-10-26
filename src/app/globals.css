@@ -10,4 +10,5 @@ body { @apply bg-ink text-ivory font-sans antialiased; }
   .card { @apply bg-charcoal border border-white/10; }
   .h-display { @apply font-serif tracking-wide; }
 }
+@keyframes hero-bottle-float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-14px) rotate(2deg); } }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
