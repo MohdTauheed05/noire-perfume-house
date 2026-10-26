@@ -6,6 +6,7 @@ import { FieldValue } from "firebase-admin/firestore";
 import { getDb } from "@/db/firestore";
 import { mapCoupon, mapOrder, type Brand, type Product, type Variant } from "@/db/models";
 import { adminAction, audit } from "@/lib/admin";
+import { hashPassword, verifyPassword } from "@/lib/auth";
 import { canTransition } from "@/lib/pricing";
 import { CATALOG_TAG } from "@/lib/queries";
 import { slugify } from "@/lib/slug";
@@ -18,6 +19,19 @@ const cents = (v: string) => Math.round(Number(v) * 100);
 /** Re-render pages AND drop the cached catalog so storefront changes show immediately. */
 const refresh = () => { revalidatePath("/", "layout"); revalidateTag(CATALOG_TAG); };
 export type Res = { error?: string; ok?: boolean } | undefined;
+
+export async function changeAdminPassword(_: Res, fd: FormData): Promise<Res> {
+  const admin = await adminAction();
+  const current = String(fd.get("currentPassword") ?? "");
+  const next = String(fd.get("newPassword") ?? "");
+  const confirm = String(fd.get("confirmPassword") ?? "");
+  if (next.length < 12 || next.length > 200) return { error: "New password must be at least 12 characters." };
+  if (next !== confirm) return { error: "The new passwords do not match." };
+  if (!(await verifyPassword(current, admin.passwordHash))) return { error: "Current password is incorrect." };
+  await col("users").doc(admin.id).update({ passwordHash: await hashPassword(next) });
+  await audit(admin.id, "PASSWORD_CHANGE", "user", admin.id);
+  return { ok: true };
+}
 
 /* ---------- Products ---------- */
 const productSchema = z.object({ name: z.string().min(2).max(200), brandId: z.string().min(1), audience: z.enum(["MEN", "WOMEN", "UNISEX"]),
@@ -270,3 +284,4 @@ export async function saveHomepage(_: Res, fd: FormData): Promise<Res> {
   for (const id of fd.getAll("secId").map(String)) b.update(col("homepageSections").doc(id), { position: Number(str(fd, `pos_${id}`) || 0), visible: fd.has(`vis_${id}`), title: opt(fd, `title_${id}`), content: opt(fd, `content_${id}`) });
   await b.commit(); await audit(a.id, "HOMEPAGE_UPDATE", "homepage"); refresh(); return { ok: true };
 }
+
