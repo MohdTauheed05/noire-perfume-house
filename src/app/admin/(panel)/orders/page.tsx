@@ -1,0 +1,8 @@
+import Link from "next/link"; import { adminPage } from "@/lib/admin"; import { aed } from "@/lib/pricing"; import { fetchRecentOrders } from "@/lib/store";
+export default async function Orders({ searchParams }: { searchParams: Promise<{ q?: string; status?: string }> }) {
+  await adminPage(); const { q, status } = await searchParams; const needle = q?.trim().toLowerCase();
+  const rows = (await fetchRecentOrders(500)).filter((o) => (!status || o.status === status) && (!needle || o.id.toLowerCase().startsWith(needle) || (o.contactEmail ?? "").toLowerCase().includes(needle) || (o.shippingName ?? "").toLowerCase().includes(needle))).slice(0, 200);
+  return (<div><h1 className="h-display text-3xl text-champagne">Orders</h1>
+    <form className="my-4 flex flex-wrap gap-2"><input name="q" defaultValue={q} aria-label="Search orders" placeholder="ID, email or name" className="input max-w-xs" /><select name="status" aria-label="Status" defaultValue={status ?? ""} className="input max-w-[10rem]"><option value="">All statuses</option>{["PENDING", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED", "REFUNDED"].map((x) => <option key={x}>{x}</option>)}</select><button className="btn-ghost">Filter</button></form>
+    <ul className="card divide-y divide-white/10">{rows.map((o) => <li key={o.id}><Link href={`/admin/orders/${o.id}`} className="flex flex-wrap justify-between gap-2 p-3 text-sm hover:text-gold"><span>{o.id.slice(0, 8).toUpperCase()} · {o.shippingName ?? "Guest"} · {o.createdAt.toLocaleDateString("en-GB")}</span><span>{o.status} · {o.paymentStatus} · {aed(o.totalCents)}</span></Link></li>)}{!rows.length && <li className="p-4 text-white/50">No orders</li>}</ul></div>);
+}

@@ -1,0 +1,9 @@
+import { adminPage } from "@/lib/admin"; import { fetchSettings } from "@/lib/store"; import { AForm, Field } from "@/components/admin/Form"; import { saveSettings } from "../../actions";
+export default async function Settings() {
+  await adminPage(); const st = await fetchSettings();
+  return (<div className="space-y-6"><h1 className="h-display text-3xl text-champagne">Store settings</h1>
+    <AForm action={saveSettings} className="grid gap-3 md:grid-cols-2"><Field n="storeName" l="Store name" v={st.storeName} req /><Field n="currency" l="Currency (display only: AED)" v={st.currency} /><Field n="contactEmail" l="Contact email" v={st.contactEmail} t="email" /><Field n="contactPhone" l="Contact phone" v={st.contactPhone} />
+      <Field n="vatPercent" l="VAT % (prices include VAT)" v={st.vatPercent} t="number" step="0.01" /><Field n="shippingFlatCents" l="Flat shipping (AED)" v={(Number(st.shippingFlatCents ?? 2500) / 100).toFixed(2)} t="number" step="0.01" /><Field n="freeShippingOverCents" l="Free shipping over (AED)" v={(Number(st.freeShippingOverCents ?? 30000) / 100).toFixed(2)} t="number" step="0.01" />
+      <Field n="seoDescription" l="Default SEO description" v={st.seoDescription} /><Field n="social_instagram" l="Instagram URL" v={st.social_instagram} /><Field n="social_facebook" l="Facebook URL" v={st.social_facebook} /><Field n="social_x" l="X URL" v={st.social_x} /><Field n="newsletterText" l="Newsletter text" v={st.newsletterText} /></AForm>
+    <section className="card p-4 text-sm"><h2 className="label">Payments</h2><p>{st.paymentProvider ? `Provider: ${st.paymentProvider}` : "No payment provider configured — checkout runs in DEMO mode (no money is collected)."} Secrets are set through server environment variables only and never shown here.</p></section></div>);
+}

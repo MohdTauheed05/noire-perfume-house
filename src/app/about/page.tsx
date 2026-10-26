@@ -1,0 +1,2 @@
+export const metadata = { title: "About", alternates: { canonical: "/about" } };
+export default function Page() { return (<article className="mx-auto max-w-3xl px-4 py-12"><h1 className="h-display text-4xl text-champagne">About</h1><div className="mt-6 space-y-4 text-white/75"><p>Edit this page for your own business. This is a demo storefront with sample products and placeholder imagery.</p></div></article>); }

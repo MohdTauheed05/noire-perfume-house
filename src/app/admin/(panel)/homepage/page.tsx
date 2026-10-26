@@ -1,0 +1,11 @@
+import { adminPage } from "@/lib/admin"; import { fetchSections, fetchSettings } from "@/lib/store"; import { AForm, Field } from "@/components/admin/Form"; import { saveHomepage } from "../../actions";
+export default async function HomeEditor() {
+  await adminPage(); const [st, secs] = await Promise.all([fetchSettings(), fetchSections()]);
+  return (<div className="space-y-6"><h1 className="h-display text-3xl text-champagne">Homepage editor</h1>
+    <AForm action={saveHomepage} className="space-y-6"><div className="grid gap-3 md:grid-cols-2"><Field n="heroHeadline" l="Hero headline" v={st.heroHeadline} /><Field n="heroSubtitle" l="Hero subtitle" v={st.heroSubtitle} />
+      <Field n="heroCta1Label" l="CTA 1 label" v={st.heroCta1Label ?? "SHOP ALL FRAGRANCES"} /><Field n="heroCta1Href" l="CTA 1 link" v={st.heroCta1Href ?? "/shop"} /><Field n="heroCta2Label" l="CTA 2 label" v={st.heroCta2Label ?? "EXPLORE BRANDS"} /><Field n="heroCta2Href" l="CTA 2 link" v={st.heroCta2Href ?? "/brands"} /><Field n="footerText" l="Footer text" v={st.footerText} /></div>
+      <fieldset><legend className="label">Sections (lower number = higher on page)</legend>{secs.map((x) => (<div key={x.id} className="mb-2 grid items-center gap-2 md:grid-cols-[120px_80px_1fr_1fr_80px]"><input type="hidden" name="secId" value={x.id} /><span className="text-sm">{x.type}</span>
+        <input name={`pos_${x.id}`} aria-label={`${x.type} position`} type="number" defaultValue={x.position} className="input" /><input name={`title_${x.id}`} aria-label={`${x.type} title`} placeholder="Title" defaultValue={x.title && x.title !== x.type ? x.title : ""} className="input" />
+        <input name={`content_${x.id}`} aria-label={`${x.type} text`} placeholder="Editorial text" defaultValue={x.content ?? ""} className="input" /><label className="flex items-center gap-1 text-sm"><input type="checkbox" name={`vis_${x.id}`} defaultChecked={x.visible} />Visible</label></div>))}</fieldset></AForm>
+    <p className="text-xs text-white/40">Featured brands are controlled on the Brands page. Product rows are driven by categories (Best Sellers, New Arrivals…) assigned on each product. Hero 3D model/image upload is not implemented; the procedural bottle is used.</p></div>);
+}

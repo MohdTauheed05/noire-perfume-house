@@ -1,0 +1,2 @@
+export const metadata = { title: "Terms and Conditions", alternates: { canonical: "/terms" } };
+export default function Page() { return (<article className="mx-auto max-w-3xl px-4 py-12"><h1 className="h-display text-4xl text-champagne">Terms and Conditions</h1><div className="mt-6 space-y-4 text-white/75"><p>Template placeholder. Replace with your reviewed legal terms before launch.</p></div></article>); }

@@ -1,0 +1,2 @@
+export const metadata = { title: "Shipping and Returns", alternates: { canonical: "/shipping-returns" } };
+export default function Page() { return (<article className="mx-auto max-w-3xl px-4 py-12"><h1 className="h-display text-4xl text-champagne">Shipping and Returns</h1><div className="mt-6 space-y-4 text-white/75"><p>Replace with your own shipping times, costs and returns policy. State your own terms on opened or used fragrances.</p></div></article>); }
