@@ -37,7 +37,7 @@ export const REMOTE_DEMO_PRODUCT_IMAGES: Record<string, string> = {
   "lancome-la-vie-est-belle": "https://perfumy.pl/hpeciai/a887db7f91ca43b0420cdf3201cc6c60/pol_pl_Lancome-La-Vie-Est-Belle-woda-perfumowana-75-ml-TESTER-1339_1.jpg",
   "lancome-idole": "https://i5.walmartimages.com/asr/4df3e718-5e6e-4952-9cc0-da7170e7183e.4d0491de4c9ebfac87b1ebd21ecbb15d.jpeg",
   "jean-paul-gaultier-le-male": "https://media.falabella.com/falabellaCL/283074_1/w%3D1500%2Ch%3D1500%2Cfit%3Dcover",
-  "jean-paul-gaultier-scandal": "https://ounass-sa.atgcdn.ae/small_light%28of%3Dwebp%2Cq%3D90%29/pub/media/catalog/product/2/1/211685595_nocolor_in.jpg?ts=1587658411.37",
+  "jean-paul-gaultier-scandal": "https://mgstore.az/media/catalog/product/cache/f8158826193ba5faa8b862a9bd1eb9e9/t/m/tm-dg-csm-1119-pf-1568_22-photoroom.png",
   "maison-margiela-replica-jazz-club": "https://images.stockmann.com/products/1d92e3291a104d624b5cdd54fe7a02b221f991f0/483x645/136424930.jpg",
   "maison-margiela-replica-by-the-fireplace": "https://decantplanet.com/cdn/shop/products/MaisonMartinMargielaBytheFireplace_5de19ce0-02b0-4ec3-8fe9-5d764ba5ae1c.webp?v=1684993899",
   "creed-aventus": "https://cdn.shopify.com/s/files/1/0738/7706/1942/files/PDP-Image-Carousel-Aventus-100ml-1x1_1.jpg?v=1779369434&width=465",
