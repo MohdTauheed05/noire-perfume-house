@@ -1,16 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { REMOTE_DEMO_PRODUCT_IMAGES } from "@/lib/demo-product-images";
 
 const HERO_BOTTLES = [
-  REMOTE_DEMO_PRODUCT_IMAGES["jean-paul-gaultier-scandal"],
-  REMOTE_DEMO_PRODUCT_IMAGES["dior-sauvage"],
+  { src: REMOTE_DEMO_PRODUCT_IMAGES["jean-paul-gaultier-scandal"], alt: "Jean Paul Gaultier Scandal perfume bottle" },
+  { src: REMOTE_DEMO_PRODUCT_IMAGES["dior-sauvage"], alt: "Dior Sauvage perfume bottle" },
+  { src: REMOTE_DEMO_PRODUCT_IMAGES["gucci-guilty-pour-homme"], alt: "Gucci Guilty Pour Homme perfume bottle" },
+  { src: REMOTE_DEMO_PRODUCT_IMAGES["versace-bright-crystal"], alt: "Versace Bright Crystal perfume bottle" },
 ];
 
 export function StaticBottle() {
   const [imageIndex, setImageIndex] = useState(0);
-  const failed = imageIndex >= HERO_BOTTLES.length;
+  const [failedImages, setFailedImages] = useState<number[]>([]);
+  const failed = failedImages.length >= HERO_BOTTLES.length;
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const interval = window.setInterval(() => {
+      setImageIndex((current) => {
+        for (let offset = 1; offset <= HERO_BOTTLES.length; offset += 1) {
+          const next = (current + offset) % HERO_BOTTLES.length;
+          if (!failedImages.includes(next)) return next;
+        }
+        return current;
+      });
+    }, 7000);
+
+    return () => window.clearInterval(interval);
+  }, [failedImages]);
 
   if (failed) {
     return (
@@ -24,16 +43,28 @@ export function StaticBottle() {
     );
   }
 
+  const activeBottle = HERO_BOTTLES[imageIndex];
+
   return (
     <div className="grid h-full w-full place-items-center overflow-visible motion-safe:animate-[hero-bottle-float_6s_ease-in-out_infinite]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={HERO_BOTTLES[imageIndex]}
-        alt="Jean Paul Gaultier Scandal perfume bottle"
+        key={imageIndex}
+        src={activeBottle.src}
+        alt={activeBottle.alt}
         referrerPolicy="no-referrer"
-        fetchPriority="high"
-        onError={() => setImageIndex((current) => current + 1)}
-        className="h-full w-full object-contain drop-shadow-[0_24px_45px_rgba(0,0,0,0.45)] [mix-blend-mode:multiply]"
+        fetchPriority={imageIndex === 0 ? "high" : "auto"}
+        onError={() => {
+          setFailedImages((current) => current.includes(imageIndex) ? current : [...current, imageIndex]);
+          setImageIndex((current) => {
+            for (let offset = 1; offset < HERO_BOTTLES.length; offset += 1) {
+              const next = (imageIndex + offset) % HERO_BOTTLES.length;
+              if (next !== current && !failedImages.includes(next)) return next;
+            }
+            return HERO_BOTTLES.length;
+          });
+        }}
+        className="h-full w-full object-contain drop-shadow-[0_24px_45px_rgba(0,0,0,0.45)] [mix-blend-mode:multiply] motion-safe:animate-[hero-bottle-appear_700ms_ease-out]"
       />
     </div>
   );
