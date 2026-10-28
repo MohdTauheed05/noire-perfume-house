@@ -14,6 +14,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const st = await getSettings();
   return (<html lang="en"><body>
-    <CartProvider><Header /><main id="main" className="min-h-[60vh]">{children}</main><Footer name={st.storeName ?? "NOIRÉ PERFUME HOUSE"} /></CartProvider>
+    <CartProvider><Header /><main id="main" className="min-h-[60vh]">{children}</main>
+      <Footer name={st.storeName ?? "NOIRÉ PERFUME HOUSE"} contactEmail={st.contactEmail} contactPhone={st.contactPhone} />
+    </CartProvider>
   </body></html>);
 }
